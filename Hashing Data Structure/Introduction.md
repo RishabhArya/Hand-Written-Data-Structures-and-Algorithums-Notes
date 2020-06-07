@@ -56,5 +56,40 @@ Collisions are very likely even if we have big table to store keys. An important
 Insert(k): Keep probing until an empty slot is found. Once an empty slot is found, insert k.<br>
 Search(k): Keep probing until slot’s key doesn’t become equal to k or an empty slot is reached.<br>
 Delete(k): <em><strong>Delete operation is interesting</strong></em>. If we simply delete a key, then search may fail. So slots of deleted keys are marked specially as “deleted”.<br>
-Insert can insert an item in a deleted slot, but the search doesn’t stop at a deleted slot.</p>
+Insert can insert an item in a deleted slot, but the search doesn’t stop at a deleted slot.<br>
+<em><strong>a) Linear Probing:</strong></em> In linear probing, we linearly probe for next slot. For example, typical gap between two probes is 1 as taken in below example also.<br>
+let <strong>hash(x)</strong> be the slot index computed using hash function and <strong>S</strong> be the table size<br>
+<img src="https://media.geeksforgeeks.org/wp-content/cdn-uploads/gq/2015/08/openAddressing1.png" alt="openAddressing"><strong>Clustering:</strong> The main problem with linear probing is clustering, many consecutive elements form groups and it starts taking time to find a free slot or to search an element<br>
+<em><strong>b) Quadratic Probing</strong></em> We look for i2‘th slot in i’th iteration.</p>
+<p>let hash(x) be the slot index computed using hash function.<br>
+If slot hash(x) % S is full, then we try (hash(x) + 1<em>1) % S<br>
+If (hash(x) + 1</em>1) % S is also full, then we try (hash(x) + 2<em>2) % S<br>
+If (hash(x) + 2</em>2) % S is also full, then we try (hash(x) + 3<em>3) % S<br>
+…<br>
+…<br>
+<strong>c) Double Hashing</strong> We use another hash function hash2(x) and look for i</em>hash2(x) slot in i’th rotation.</p>
+<p>let hash(x) be the slot index computed using hash function.<br>
+If slot hash(x) % S is full, then we try (hash(x) + 1<em>hash2(x)) % S<br>
+If (hash(x) + 1</em>hash2(x)) % S is also full, then we try (hash(x) + 2<em>hash2(x)) % S<br>
+If (hash(x) + 2</em>hash2(x)) % S is also full, then we try (hash(x) + 3*hash2(x)<br>
+…<br>
+…</p>
+<h2 id="double-hashing">Double Hashing</h2>
+<p><strong>Double hashing</strong> is a collision resolving technique in <strong>Open Addressed</strong> Hash tables. Double hashing uses the idea of applying a second hash function to key when a collision occurs.</p>
+<blockquote>
+<p>Double hashing can be done using :<br>
+<strong>(hash1(key) + i * hash2(key)) % TABLE_SIZE</strong><br>
+First hash function is typically hash1(key) = key % TABLE_SIZE</p>
+</blockquote>
+<ul>
+<li>First hash function is typically hash1(key) = key % TABLE_SIZE</li>
+<li>A popular second hash function is : <strong>hash2(key) = PRIME – (key % PRIME)</strong> where PRIME is a prime smaller than the TABLE_SIZE.</li>
+</ul>
+<p>A good second Hash function is:</p>
+<ul>
+<li>It must never evaluate to zero</li>
+<li>Must make sure that all cells can be probed<br>
+<img src="https://media.geeksforgeeks.org/wp-content/uploads/double-hash-function.png" alt=""></li>
+</ul>
+<h3 id="load-factor-and-rehashing">Load Factor and Rehashing</h3>
 
