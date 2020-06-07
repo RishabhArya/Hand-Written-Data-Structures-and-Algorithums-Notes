@@ -92,4 +92,30 @@ First hash function is typically hash1(key) = key % TABLE_SIZE</p>
 <img src="https://media.geeksforgeeks.org/wp-content/uploads/double-hash-function.png" alt=""></li>
 </ul>
 <h3 id="load-factor-and-rehashing">Load Factor and Rehashing</h3>
+<p><strong>How hashing works:</strong><br>
+For <strong>insertion</strong> of a key(K) – value(V) pair into a hash map, 2 steps are required:</p>
+<ol>
+<li>K is converted into a small integer (called its hash code) using a hash function.</li>
+<li>The hash code is used to find an index (hashCode % arrSize) and the entire linked list at that index(Separate chaining) is first searched for the presence of the K already.</li>
+<li>If found, it’s value is updated and if not, the K-V pair is stored as a new node in the list.</li>
+</ol>
+<h3 id="complexity-and-load-factor">Complexity and Load Factor</h3>
+<ul>
+<li>For the <strong>first step</strong>, time taken depends on the K and the hash function.<br>
+For example, if the key is a string “abcd”, then it’s hash function may depend on the length of the string. But for very large values of n, the number of entries into the map, length of the keys is almost negligible in comparison to n so hash computation can be considered to take place in constant time, i.e, <strong>O(1)</strong>.</li>
+<li>For the <strong>second step</strong>, traversal of the list of K-V pairs present at that index needs to be done. For this, the worst case may be that all the n entries are at the same index. So, time complexity would be <strong>O(n)</strong>. But, enough research has been done to make hash functions uniformly distribute the keys in the array so this almost never happens.</li>
+<li>So, <strong>on an average</strong>, if there are n entries and b is the size of the array there would be <strong>n/b</strong> entries on each index. This value n/b is called the <strong>load factor</strong> that represents the load that is there on our map.</li>
+<li>This Load Factor needs to be kept low, so that number of entries at one index is less and so is the complexity almost constant, i.e., O(1).</li>
+<li></li>
+</ul>
+<h3 id="rehashing">Rehashing:</h3>
+<p><strong>Rehashing means hashing again</strong>. Basically, when the load factor increases to more than its pre-defined value (default value of load factor is 0.75), the complexity increases. So to overcome this, the size of the array is increased (doubled) and all the values are hashed again and stored in the new double sized array to maintain a low load factor and low complexity.<br>
+Rehash must be done, increasing the size of the bucketArray so as to reduce the load factor and the time complexity.<br>
+Rehashing can be done as follows:</p>
+<ul>
+<li>For each addition of a new entry to the map, check the load factor.</li>
+<li>If it’s greater than its pre-defined value (or default value of 0.75 if not given), then Rehash.</li>
+<li>For Rehash, make a new array of double the previous size and make it the new bucketarray.</li>
+<li>Then traverse to each element in the old bucketArray and call the insert() for each so as to insert it into the new larger bucket array.</li>
+</ul>
 
